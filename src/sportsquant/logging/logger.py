@@ -18,4 +18,20 @@ logging.basicConfig(
     ],
 )
 
-logger = logging.getLogger("sportsquant")
+def get_logger(name: str) -> logging.Logger:
+    """
+    Return a configured logger.
+
+    Parameters
+    ----------
+    name : str
+        Logger name.
+
+    Returns
+    -------
+    logging.Logger
+    """
+    return logging.getLogger(name)
+
+
+logger = get_logger("sportsquant")

@@ -1,33 +1,40 @@
-# Virtual environment
+# Virtual Environments
+
 .venv/
 venv/
 
 # Python
+
 __pycache__/
 *.py[cod]
-*.pyo
 *.pyd
 
-# Jupyter
+# Jupyter Notebooks
+
 .ipynb_checkpoints/
 
-# Environment variables
+# Environment Variables
+
 .env
 
-# VS Code
+# IDEs
+
 .vscode/
 
-# OS files
+# Operating System Files
+
 .DS_Store
 Thumbs.db
 
-# Python package metadata
+# Package Metadata
+
 *.egg-info/
 
-# Build artifacts
+# Build Artifacts
+
 build/
 dist/
 
-# Python cache
-__pycache__/
-*.pyc
+# Logs
+logs/
+*.log

@@ -5,7 +5,7 @@ from sportsquant.config.settings import (
 )
 
 from sportsquant.utils.paths import PROJECT_ROOT
-
+from sportsquant.logging.logger import logger
 
 def main() -> None:
     print("=" * 50)
@@ -16,6 +16,7 @@ def main() -> None:
     print(f"Default Sport: {DEFAULT_SPORT}")
     print(f"Debug Mode   : {DEBUG}")
 
+logger.info("SportsQuant-AI initialized successfully.")
 
 if __name__ == "__main__":
     main()

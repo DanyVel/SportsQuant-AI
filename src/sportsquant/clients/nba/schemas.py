@@ -1,0 +1,28 @@
+"""
+Schemas for NBA Stats API endpoints.
+"""
+
+from __future__ import annotations
+
+
+class CommonAllPlayersSchema:
+    """
+    Schema for the CommonAllPlayers endpoint.
+    """
+
+    PERSON_ID = "PERSON_ID"
+    DISPLAY_LAST_COMMA_FIRST = "DISPLAY_LAST_COMMA_FIRST"
+    DISPLAY_FIRST_LAST = "DISPLAY_FIRST_LAST"
+    ROSTERSTATUS = "ROSTERSTATUS"
+    FROM_YEAR = "FROM_YEAR"
+    TO_YEAR = "TO_YEAR"
+    PLAYERCODE = "PLAYERCODE"
+    PLAYER_SLUG = "PLAYER_SLUG"
+    TEAM_ID = "TEAM_ID"
+    TEAM_CITY = "TEAM_CITY"
+    TEAM_NAME = "TEAM_NAME"
+    TEAM_ABBREVIATION = "TEAM_ABBREVIATION"
+    TEAM_CODE = "TEAM_CODE"
+    TEAM_SLUG = "TEAM_SLUG"
+    GAMES_PLAYED_FLAG = "GAMES_PLAYED_FLAG"
+    OTHERLEAGUE_EXPERIENCE_CH = "OTHERLEAGUE_EXPERIENCE_CH"

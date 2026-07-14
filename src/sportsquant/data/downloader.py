@@ -71,11 +71,28 @@ class BaseDownloader(BaseDataComponent):
     def get(
         self,
         url: str,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
         timeout: int | None = None,
-        **kwargs: Any,
     ) -> ResponseData:
         """
         Execute a GET request.
+
+        Parameters
+        ----------
+        url : str
+            Request URL.
+        params : dict[str, Any] | None, optional
+            Query parameters.
+        headers : dict[str, str] | None, optional
+            HTTP headers.
+        timeout : int | None, optional
+            Request timeout in seconds.
+
+        Returns
+        -------
+        ResponseData
+            HTTP response.
         """
 
         timeout = timeout or self.DEFAULT_TIMEOUT
@@ -84,9 +101,10 @@ class BaseDownloader(BaseDataComponent):
 
         try:
             response: Response = self.session.get(
-                url,
+                url=url,
+                params=params,
+                headers=headers,
                 timeout=timeout,
-                **kwargs,
             )
 
             response.raise_for_status()

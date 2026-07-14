@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from sportsquant.aggregates import Game
 from sportsquant.pipelines.base import BasePipeline
+from sportsquant.pipelines.config import PipelineConfig
 from sportsquant.repositories import GameRepository
 from sportsquant.repositories.nba import NBAGameRepository
 
@@ -18,10 +19,13 @@ class HistoricalDataPipeline(BasePipeline):
     def __init__(
         self,
         repository: GameRepository | None = None,
+        config: PipelineConfig | None = None,
     ) -> None:
         """
         Initialize the historical pipeline.
         """
+        super().__init__(config)
+
         self._repository = repository or NBAGameRepository()
 
     def run(
@@ -77,7 +81,7 @@ class HistoricalDataPipeline(BasePipeline):
         """
         games: list[Game] = []
 
-        for game_id in game_ids:
+        for game_id in self.executor.iterate(game_ids):
             game = self._repository.get_by_id(
                 game_id,
             )

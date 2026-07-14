@@ -9,8 +9,6 @@ from collections.abc import Iterator
 from typing import TypeVar
 
 from sportsquant.pipelines.config import PipelineConfig
-from sportsquant.pipelines.hooks import NullPipelineHook
-from sportsquant.pipelines.hooks import PipelineHook
 
 T = TypeVar("T")
 
@@ -33,7 +31,6 @@ class PipelineExecutor:
     def __init__(
         self,
         config: PipelineConfig,
-        hook: PipelineHook | None = None,
     ) -> None:
         """
         Initialize the executor.
@@ -41,12 +38,8 @@ class PipelineExecutor:
         Args:
             config:
                 Pipeline execution configuration.
-
-            hook:
-                Pipeline execution hook.
         """
         self._config = config
-        self._hook = hook or NullPipelineHook()
 
     def iterate(
         self,
@@ -57,23 +50,17 @@ class PipelineExecutor:
 
         Respects the configured execution limits.
         """
-        self._hook.before_run()
+        count = 0
 
-        try:
-            count = 0
+        for item in items:
+            if (
+                self._config.max_items is not None
+                and count >= self._config.max_items
+            ):
+                break
 
-            for item in items:
-                if (
-                    self._config.max_items is not None
-                    and count >= self._config.max_items
-                ):
-                    break
-
-                yield item
-                count += 1
-
-        finally:
-            self._hook.after_run()
+            yield item
+            count += 1
 
     def iter_batches(
         self,

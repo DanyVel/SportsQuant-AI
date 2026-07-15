@@ -7,7 +7,7 @@ engine used by the persistence layer.
 
 from sqlalchemy import Engine, create_engine
 
-DATABASE_URL = "sqlite:///sportsquant.db"
+from sportsquant.config.settings import DATABASE_URL
 
 _ENGINE = create_engine(
     DATABASE_URL,

@@ -4,6 +4,8 @@ NBA Game repository implementation.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
+
 from sportsquant.aggregates import Game
 from sportsquant.providers import NBAProvider
 from sportsquant.repositories import GameRepository
@@ -29,17 +31,6 @@ class NBAGameRepository(GameRepository):
     ) -> Game | None:
         """
         Retrieve a Game aggregate by its identifier.
-
-        Parameters
-        ----------
-        game_id : str
-            NBA game identifier.
-
-        Returns
-        -------
-        Game | None
-            Complete Game aggregate if the game exists,
-            otherwise None.
         """
         summary = self._provider.get_game_summary(
             game_id,
@@ -81,17 +72,29 @@ class NBAGameRepository(GameRepository):
     ) -> tuple[str, ...]:
         """
         Retrieve every game identifier for a season.
-
-        Parameters
-        ----------
-        season : str
-            NBA season (e.g. "2023-24").
-
-        Returns
-        -------
-        tuple[str, ...]
-            Tuple containing every game identifier.
         """
         return self._provider.get_game_ids_by_season(
             season,
+        )
+
+    def save(
+        self,
+        game: Game,
+    ) -> None:
+        """
+        NBA repositories are read-only.
+        """
+        raise NotImplementedError(
+            "NBAGameRepository does not support persistence."
+        )
+
+    def save_many(
+        self,
+        games: Iterable[Game],
+    ) -> None:
+        """
+        NBA repositories are read-only.
+        """
+        raise NotImplementedError(
+            "NBAGameRepository does not support persistence."
         )

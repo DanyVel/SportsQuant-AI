@@ -5,6 +5,7 @@ Game repository interface.
 from __future__ import annotations
 
 from abc import abstractmethod
+from collections.abc import Iterable
 
 from sportsquant.aggregates import Game
 from sportsquant.repositories.base import BaseRepository
@@ -53,5 +54,25 @@ class GameRepository(BaseRepository):
         tuple[str, ...]
             Tuple containing every game identifier
             for the requested season.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def save(
+        self,
+        game: Game,
+    ) -> None:
+        """
+        Persist a Game aggregate.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def save_many(
+        self,
+        games: Iterable[Game],
+    ) -> None:
+        """
+        Persist multiple Game aggregates.
         """
         raise NotImplementedError

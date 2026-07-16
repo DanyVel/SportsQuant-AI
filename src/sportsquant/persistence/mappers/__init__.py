@@ -2,6 +2,7 @@
 Persistence mappers.
 """
 
+from sportsquant.persistence.mappers.game_mapper import GameMapper
 from sportsquant.persistence.mappers.player_game_stats_mapper import (
     PlayerGameStatsMapper,
 )
@@ -11,7 +12,8 @@ from sportsquant.persistence.mappers.team_game_stats_mapper import (
 from sportsquant.persistence.mappers.team_mapper import TeamMapper
 
 __all__ = [
-    "TeamMapper",
-    "TeamGameStatsMapper",
+    "GameMapper",
     "PlayerGameStatsMapper",
+    "TeamGameStatsMapper",
+    "TeamMapper",
 ]

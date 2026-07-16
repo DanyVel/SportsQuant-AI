@@ -89,7 +89,39 @@ def test_team_game_feature_preserves_field_values() -> None:
     assert feature.personal_fouls == 18
 
 
-def _make_team_game_feature() -> TeamGameFeature:
+def test_team_game_feature_default_shooting_percentages() -> None:
+    """
+    TeamGameFeature should default the shooting percentage fields to 0.0
+    when they are not explicitly provided.
+    """
+    feature = _make_team_game_feature()
+
+    assert feature.field_goal_percentage == 0.0
+    assert feature.three_point_percentage == 0.0
+    assert feature.free_throw_percentage == 0.0
+
+
+def test_team_game_feature_accepts_explicit_shooting_percentages() -> None:
+    """
+    TeamGameFeature should preserve explicitly assigned shooting percentage
+    values.
+    """
+    feature = _make_team_game_feature(
+        field_goal_percentage=0.444,
+        three_point_percentage=0.343,
+        free_throw_percentage=0.818,
+    )
+
+    assert feature.field_goal_percentage == 0.444
+    assert feature.three_point_percentage == 0.343
+    assert feature.free_throw_percentage == 0.818
+
+
+def _make_team_game_feature(
+    field_goal_percentage: float = 0.0,
+    three_point_percentage: float = 0.0,
+    free_throw_percentage: float = 0.0,
+) -> TeamGameFeature:
     return TeamGameFeature(
         game_id="0022300001",
         game_date=date(
@@ -115,4 +147,7 @@ def _make_team_game_feature() -> TeamGameFeature:
         blocks=5,
         turnovers=12,
         personal_fouls=18,
+        field_goal_percentage=field_goal_percentage,
+        three_point_percentage=three_point_percentage,
+        free_throw_percentage=free_throw_percentage,
     )

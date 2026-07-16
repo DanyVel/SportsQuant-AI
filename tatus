@@ -1,0 +1,111 @@
+warning: in the working copy of 'src/sportsquant/features/team_game_feature_builder.py', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/sportsquant/features/team_game_feature_builder.py b/src/sportsquant/features/team_game_feature_builder.py[m
+[1mindex 17c8ead..29aa948 100644[m
+[1m--- a/src/sportsquant/features/team_game_feature_builder.py[m
+[1m+++ b/src/sportsquant/features/team_game_feature_builder.py[m
+[36m@@ -6,6 +6,8 @@[m [mfrom __future__ import annotations[m
+ [m
+ from sportsquant.aggregates import Game[m
+ from sportsquant.features.team_game_feature import TeamGameFeature[m
+[32m+[m[32mfrom sportsquant.models import GameSummary[m
+[32m+[m[32mfrom sportsquant.models import TeamGameStats[m
+ [m
+ [m
+ def team_game_features_from_game([m
+[36m@@ -15,52 +17,52 @@[m [mdef team_game_features_from_game([m
+     Build team game features for both teams in a game.[m
+     """[m
+     return ([m
+[31m-        TeamGameFeature([m
+[31m-            game_id=game.summary.game_id,[m
+[31m-            game_date=game.summary.game_date,[m
+[31m-            team_id=game.home_team_stats.team_id,[m
+[31m-            opponent_team_id=game.summary.away_team_id,[m
+[32m+[m[32m        _build_feature([m
+[32m+[m[32m            summary=game.summary,[m
+[32m+[m[32m            team_stats=game.home_team_stats,[m
+[32m+[m[32m            opponent_stats=game.away_team_stats,[m
+             is_home=True,[m
+[31m-            points=game.home_team_stats.points,[m
+[31m-            opponent_points=game.away_team_stats.points,[m
+[31m-            field_goals_made=game.home_team_stats.field_goals_made,[m
+[31m-            field_goals_attempted=game.home_team_stats.field_goals_attempted,[m
+[31m-            three_pointers_made=game.home_team_stats.three_pointers_made,[m
+[31m-            three_pointers_attempted=([m
+[31m-                game.home_team_stats.three_pointers_attempted[m
+[31m-            ),[m
+[31m-            free_throws_made=game.home_team_stats.free_throws_made,[m
+[31m-            free_throws_attempted=game.home_team_stats.free_throws_attempted,[m
+[31m-            offensive_rebounds=game.home_team_stats.offensive_rebounds,[m
+[31m-            defensive_rebounds=game.home_team_stats.defensive_rebounds,[m
+[31m-            assists=game.home_team_stats.assists,[m
+[31m-            steals=game.home_team_stats.steals,[m
+[31m-            blocks=game.home_team_stats.blocks,[m
+[31m-            turnovers=game.home_team_stats.turnovers,[m
+[31m-            personal_fouls=game.home_team_stats.personal_fouls,[m
+         ),[m
+[31m-        TeamGameFeature([m
+[31m-            game_id=game.summary.game_id,[m
+[31m-            game_date=game.summary.game_date,[m
+[31m-            team_id=game.away_team_stats.team_id,[m
+[31m-            opponent_team_id=game.summary.home_team_id,[m
+[32m+[m[32m        _build_feature([m
+[32m+[m[32m            summary=game.summary,[m
+[32m+[m[32m            team_stats=game.away_team_stats,[m
+[32m+[m[32m            opponent_stats=game.home_team_stats,[m
+             is_home=False,[m
+[31m-            points=game.away_team_stats.points,[m
+[31m-            opponent_points=game.home_team_stats.points,[m
+[31m-            field_goals_made=game.away_team_stats.field_goals_made,[m
+[31m-            field_goals_attempted=game.away_team_stats.field_goals_attempted,[m
+[31m-            three_pointers_made=game.away_team_stats.three_pointers_made,[m
+[31m-            three_pointers_attempted=([m
+[31m-                game.away_team_stats.three_pointers_attempted[m
+[31m-            ),[m
+[31m-            free_throws_made=game.away_team_stats.free_throws_made,[m
+[31m-            free_throws_attempted=game.away_team_stats.free_throws_attempted,[m
+[31m-            offensive_rebounds=game.away_team_stats.offensive_rebounds,[m
+[31m-            defensive_rebounds=game.away_team_stats.defensive_rebounds,[m
+[31m-            assists=game.away_team_stats.assists,[m
+[31m-            steals=game.away_team_stats.steals,[m
+[31m-            blocks=game.away_team_stats.blocks,[m
+[31m-            turnovers=game.away_team_stats.turnovers,[m
+[31m-            personal_fouls=game.away_team_stats.personal_fouls,[m
+         ),[m
+     )[m
+[32m+[m
+[32m+[m
+[32m+[m[32mdef _build_feature([m
+[32m+[m[32m    summary: GameSummary,[m
+[32m+[m[32m    team_stats: TeamGameStats,[m
+[32m+[m[32m    opponent_stats: TeamGameStats,[m
+[32m+[m[32m    is_home: bool,[m
+[32m+[m[32m) -> TeamGameFeature:[m
+[32m+[m[32m    opponent_team_id = ([m
+[32m+[m[32m        summary.away_team_id[m
+[32m+[m[32m        if is_home[m
+[32m+[m[32m        else summary.home_team_id[m
+[32m+[m[32m    )[m
+[32m+[m
+[32m+[m[32m    return TeamGameFeature([m
+[32m+[m[32m        game_id=summary.game_id,[m
+[32m+[m[32m        game_date=summary.game_date,[m
+[32m+[m[32m        team_id=team_stats.team_id,[m
+[32m+[m[32m        opponent_team_id=opponent_team_id,[m
+[32m+[m[32m        is_home=is_home,[m
+[32m+[m[32m        points=team_stats.points,[m
+[32m+[m[32m        opponent_points=opponent_stats.points,[m
+[32m+[m[32m        field_goals_made=team_stats.field_goals_made,[m
+[32m+[m[32m        field_goals_attempted=team_stats.field_goals_attempted,[m
+[32m+[m[32m        three_pointers_made=team_stats.three_pointers_made,[m
+[32m+[m[32m        three_pointers_attempted=team_stats.three_pointers_attempted,[m
+[32m+[m[32m        free_throws_made=team_stats.free_throws_made,[m
+[32m+[m[32m        free_throws_attempted=team_stats.free_throws_attempted,[m
+[32m+[m[32m        offensive_rebounds=team_stats.offensive_rebounds,[m
+[32m+[m[32m        defensive_rebounds=team_stats.defensive_rebounds,[m
+[32m+[m[32m        assists=team_stats.assists,[m
+[32m+[m[32m        steals=team_stats.steals,[m
+[32m+[m[32m        blocks=team_stats.blocks,[m
+[32m+[m[32m        turnovers=team_stats.turnovers,[m
+[32m+[m[32m        personal_fouls=team_stats.personal_fouls,[m
+[32m+[m[32m    )[m

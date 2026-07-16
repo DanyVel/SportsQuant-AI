@@ -42,3 +42,7 @@ class TeamGameFeature:
 
     turnovers: int
     personal_fouls: int
+
+    field_goal_percentage: float = 0.0
+    three_point_percentage: float = 0.0
+    free_throw_percentage: float = 0.0

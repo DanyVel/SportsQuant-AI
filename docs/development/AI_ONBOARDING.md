@@ -59,4 +59,6 @@ Never modify unrelated files.
 
 When in doubt, preserve the existing architecture.
 
-The repository documentation is the source of truth.
+The repository is the source of truth.
+
+When documentation and implementation disagree, the implementation takes precedence unless explicitly documented as a planned change.

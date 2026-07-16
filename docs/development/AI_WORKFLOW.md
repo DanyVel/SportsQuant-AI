@@ -83,6 +83,10 @@ Never combine unrelated changes.
 
 Never refactor unrelated code.
 
+Never perform opportunistic refactoring.
+
+Only refactor code required by the current commit.
+
 Never modify files outside the scope of the commit.
 
 ---
@@ -104,7 +108,9 @@ Implementation AIs must not:
 
 # Testing
 
-pytest must pass before every commit.
+pytest must pass before proposing a commit.
+
+If tests fail, implementation is not complete.
 
 No failing tests are allowed.
 

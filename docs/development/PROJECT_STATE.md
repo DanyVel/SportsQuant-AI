@@ -48,7 +48,7 @@ Pure Calculators
 
 ↓
 
-Feature Extractors
+Feature Builders
 
 ↓
 
@@ -61,6 +61,19 @@ Dataset Generation
 ↓
 
 Machine Learning
+
+---
+
+## Frozen Decisions
+
+The following architectural decisions are frozen unless explicitly changed.
+
+- Feature Engineering works over Game Aggregates.
+- Calculators are pure functions.
+- Builders transform Game aggregates into analytical models.
+- Services only orchestrate.
+- Persistence is isolated from Feature Engineering.
+- TeamGameFeature is an analytical model, not a domain entity.
 
 ---
 
@@ -96,9 +109,15 @@ docs/development/AI_WORKFLOW.md
 
 ---
 
+## Last Completed Commit
+
+docs: establish AI development workflow
+
+---
+
 ## Next Planned Commit
 
-(To be updated after every completed commit.)
+feat(features): add team game feature builder
 
 ---
 
@@ -106,4 +125,13 @@ docs/development/AI_WORKFLOW.md
 
 This document represents the current project snapshot.
 
-It should always reflect the current state of development.
+Update this document only when the project state materially changes.
+
+Examples:
+
+- milestone completed
+- architecture frozen
+- new development phase
+- major architectural decision
+
+Do not update this document for every small feature commit.

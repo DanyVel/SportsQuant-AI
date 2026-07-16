@@ -1,8 +1,8 @@
-# ADR-004 — Repository and Storage Separation
+# ADR-004 — Repository and Persistence Separation
 
 ## Status
 
-Accepted
+Superseded by the SQLAlchemy persistence layer
 
 ---
 
@@ -13,7 +13,7 @@ Repositories retrieve domain objects.
 Historical data must eventually be stored locally.
 
 Mixing persistence logic into repositories would couple
-data acquisition with storage technology.
+data acquisition with database technology.
 
 ---
 
@@ -22,7 +22,7 @@ data acquisition with storage technology.
 Repositories are responsible only for retrieving
 domain aggregates.
 
-Persistence is delegated to dedicated Storage classes.
+Persistence is delegated to the SQLAlchemy persistence layer.
 
 The HistoricalDataPipeline orchestrates both.
 
@@ -34,7 +34,7 @@ HistoricalDataPipeline
         │
         ├──────────────┐
         ▼              ▼
-GameRepository     GameStorage
+GameRepository     SQLAlchemy persistence repository
 
 ---
 
@@ -43,10 +43,10 @@ GameRepository     GameStorage
 Pros
 
 - Repository remains focused.
-- Storage technology can change independently.
+- Database technology can change independently.
 - Easier testing.
 - Better scalability.
 
 Cons
 
-- One additional abstraction.
+- One additional persistence component.

@@ -32,72 +32,52 @@ Milestone 9 — Feature Engineering
 
 Current objective:
 
-Implement feature engineering over Game Aggregates.
+Implement Feature Engineering over Game Aggregates.
 
 ---
 
 ## Architecture Status
 
-The following architecture is frozen.
+Feature Engineering architecture is frozen and documented in:
 
-Feature Engineering
-
-↓
-
-Pure Calculators
-
-↓
-
-Feature Builders
-
-↓
-
-Feature Models
-
-↓
-
-Dataset Generation
-
-↓
-
-Machine Learning
+`docs/architecture/feature-engineering.md`
 
 ---
 
 ## Frozen Decisions
 
-The following architectural decisions are frozen unless explicitly changed.
-
-- Feature Engineering works over Game Aggregates.
-- Calculators are pure functions.
-- Builders transform Game aggregates into analytical models.
-- Services only orchestrate.
+- Feature Engineering operates exclusively on Game Aggregates.
+- TeamGameFeature is an analytical model.
+- Builders perform direct mappings only.
+- Enrichers compute derived analytical values.
+- Calculators are pure reusable functions.
+- Feature models are immutable.
 - Persistence is isolated from Feature Engineering.
-- TeamGameFeature is an analytical model, not a domain entity.
 
 ---
 
 ## Current Rules
 
-Feature Engineering:
+Feature Engineering must never depend on:
 
-- no SQLAlchemy
-- no ORM
-- no Session
-- no repositories
-- no persistence
-- no pipelines
-- pure functions whenever possible
+- SQLAlchemy
+- ORM
+- Session
+- Repositories
+- Persistence
+- Pipelines
+
+Pure functions are preferred whenever possible.
 
 ---
 
 ## Testing Status
 
-Current expectation:
+Every commit must pass:
 
-All tests must pass before every commit.
+- pytest
 
-pytest is mandatory.
+No failing tests are allowed.
 
 ---
 
@@ -105,19 +85,19 @@ pytest is mandatory.
 
 See:
 
-docs/development/AI_WORKFLOW.md
+`docs/development/AI_WORKFLOW.md`
 
 ---
 
 ## Last Completed Commit
 
-docs: establish AI development workflow
+`docs(architecture): document feature engineering architecture`
 
 ---
 
 ## Next Planned Commit
 
-feat(features): add team game feature builder
+Architecture planning for the transition from Feature Engineering to Machine Learning.
 
 ---
 
@@ -125,13 +105,9 @@ feat(features): add team game feature builder
 
 This document represents the current project snapshot.
 
-Update this document only when the project state materially changes.
+Update it only when:
 
-Examples:
-
-- milestone completed
-- architecture frozen
-- new development phase
-- major architectural decision
-
-Do not update this document for every small feature commit.
+- a milestone is completed;
+- architecture changes;
+- a new development phase begins;
+- a major architectural decision is frozen.

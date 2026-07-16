@@ -5,6 +5,7 @@ Historical NBA data pipeline.
 from __future__ import annotations
 
 from sportsquant.aggregates import Game
+from sportsquant.persistence.repositories import SQLAlchemyGameRepository
 from sportsquant.pipelines.base import BasePipeline
 from sportsquant.pipelines.config import PipelineConfig
 from sportsquant.repositories import GameRepository
@@ -18,6 +19,7 @@ class HistoricalDataPipeline(BasePipeline):
 
     def __init__(
         self,
+        persistence_repository: SQLAlchemyGameRepository,
         repository: GameRepository | None = None,
         config: PipelineConfig | None = None,
     ) -> None:
@@ -27,6 +29,7 @@ class HistoricalDataPipeline(BasePipeline):
         super().__init__(config)
 
         self._repository = repository or NBAGameRepository()
+        self._persistence_repository = persistence_repository
 
     def run(
         self,
@@ -87,6 +90,10 @@ class HistoricalDataPipeline(BasePipeline):
             )
 
             if game is not None:
+                self._persistence_repository.save(
+                    game,
+                )
+
                 games.append(
                     game,
                 )

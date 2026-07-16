@@ -2,6 +2,8 @@
 Demo for HistoricalDataPipeline.
 """
 
+from sportsquant.persistence.repositories import SQLAlchemyGameRepository
+from sportsquant.persistence.session import get_session
 from sportsquant.pipelines import HistoricalDataPipeline
 
 
@@ -9,7 +11,12 @@ def main() -> None:
     """
     Run the pipeline demo.
     """
-    pipeline = HistoricalDataPipeline()
+    session = get_session()
+    repository = SQLAlchemyGameRepository(session)
+
+    pipeline = HistoricalDataPipeline(
+        persistence_repository=repository,
+    )
 
     games = pipeline.run(
         season="2023-24",

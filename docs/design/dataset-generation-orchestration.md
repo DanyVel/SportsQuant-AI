@@ -69,6 +69,12 @@ orquestación de Dataset Generation deberá coordinar las piezas
 existentes, manteniendo abiertas las decisiones que todavía requieren
 formalización.
 
+El ADR `docs/design/target-generation-oq4-association.md` (OQ4) ya
+resolvió la identidad de asociación entre `feature` y `target`:
+`(game_id, team_id)`. Esta decisión no resuelve la tensión textual
+existente entre `dataset-builder.md` y `DatasetRow`, que permanece
+pendiente de revisión formal.
+
 ---
 
 ## 3. Architectural Context
@@ -103,6 +109,12 @@ observaciones alrededor de una correspondencia:
 Esta referencia no define por sí misma un mecanismo técnico de
 identidad dentro de `DatasetRow`, ni introduce campos nuevos en los
 modelos existentes.
+
+El ADR `docs/design/target-generation-oq4-association.md` (OQ4)
+resolvió formalmente que `(game_id, team_id)` es la identidad
+estructural utilizada para asociar `feature` y `target`, mediante los
+campos primitivos ya existentes (`game_id: str`, `team_id: int`), sin
+introducir un Identity Value Object ni una entidad `Observation`.
 
 ---
 
@@ -159,6 +171,11 @@ Estas responsabilidades son conceptuales.
 
 Este RFC no define todavía la forma técnica concreta de ejecutar cada
 operación.
+
+La asociación del Prediction Target con la observación utiliza
+`(game_id, team_id)` como identidad estructural y fuente de verdad
+semántica, conforme al ADR OQ4. La forma técnica concreta de realizar
+esta asociación permanece abierta.
 
 ---
 
@@ -251,7 +268,7 @@ Información necesaria para Dataset Generation
             \                   /
              \                 /
               v               v
-             Asociación pendiente
+             Asociación por identidad (game_id, team_id)
                     |
                     v
               DatasetRow
@@ -364,6 +381,11 @@ En particular, este documento no introduce:
 
 La asociación concreta permanece como decisión pendiente.
 
+La correspondencia entre `feature` y `target` debe utilizar
+`(game_id, team_id)` como identidad semántica, conforme a OQ4. El
+mecanismo técnico concreto para realizar esta asociación permanece
+abierto y no se introduce ninguna nueva estructura en `DatasetRow`.
+
 ---
 
 ## 11. Relationship with Dataset
@@ -412,6 +434,21 @@ En particular, este RFC no establece que:
 El mecanismo concreto para verificar que un Prediction Target corresponde
 a la observación correcta permanece abierto.
 
+El ADR `docs/design/target-generation-oq4-association.md` (OQ4)
+resolvió formalmente que `(game_id, team_id)` es la identidad
+estructural utilizada para asociar `feature` y `target`.
+
+Esta decisión utiliza los campos primitivos ya existentes
+(`game_id: str`, `team_id: int`) y no introduce un Identity Value Object,
+una entidad `Observation` ni un componente independiente de ensamblado.
+
+Target Generation permanece identity-free y DatasetBuilder permanece
+target-unaware. Sus contratos no cambian como consecuencia de OQ4.
+
+El mecanismo técnico concreto de aplicación de esta identidad,
+incluyendo API, estructura de coordinación y validaciones, permanece
+abierto.
+
 ---
 
 ## 13. One-to-One Correspondence
@@ -446,6 +483,12 @@ el cual esta correspondencia será garantizada.
 
 La identidad conceptual `(game_id, team_id)` constituye un antecedente
 relevante, pero no se convierte aquí en un contrato técnico nuevo.
+
+La identidad `(game_id, team_id)`, resuelta por OQ4, constituye la
+fuente de verdad semántica de la correspondencia entre feature y target.
+Una asociación basada únicamente en la posición de dos colecciones,
+como `zip(features, targets)`, no constituye la fuente de verdad
+arquitectónica.
 
 ---
 
@@ -483,6 +526,10 @@ paralela obligatoria.
 Tampoco debe interpretarse como una secuencia concreta de invocaciones.
 
 El orden de operaciones queda como decisión pendiente.
+
+OQ4 no determina el orden concreto de invocación entre DatasetBuilder
+y Target Generation. Lo que ya está resuelto es la identidad utilizada
+para la asociación: `(game_id, team_id)`.
 
 ---
 
@@ -535,6 +582,7 @@ Este RFC debe interpretarse junto con los siguientes documentos:
 - `docs/design/dataset.md`
 - `docs/design/dataset-row.md`
 - `docs/design/target-generation.md`
+- `docs/design/target-generation-oq4-association.md`
 - `docs/specifications/dataset-builder.md`
 - `docs/specifications/target-generation.md`
 
@@ -626,6 +674,11 @@ Las cinco Open Questions de Target Generation permanecen intactas.
 
 No pueden resolverse implícitamente mediante la implementación de esta
 orquestación.
+
+OQ4 ya fue resuelta formalmente por
+`docs/design/target-generation-oq4-association.md`: la identidad de
+asociación es `(game_id, team_id)`. OQ1, OQ2, OQ3 y OQ5 permanecen
+abiertas.
 
 ---
 
@@ -756,6 +809,14 @@ Las siguientes decisiones permanecen abiertas.
 observación y su Prediction Target correspondiente se asociarán para
 producir una `DatasetRow` válida?
 
+La identidad utilizada para la asociación ya fue resuelta por OQ4
+(`docs/design/target-generation-oq4-association.md`):
+`(game_id, team_id)`.
+
+Lo que permanece abierto es el mecanismo técnico concreto (API,
+estructura de coordinación y validaciones) mediante el cual esa
+identidad se aplicará para asociar una observación con su Prediction
+Target correspondiente.
 ### 23.2 Orden de operaciones
 
 ¿Debe ejecutarse primero DatasetBuilder, primero Target Generation, o
@@ -799,6 +860,16 @@ Ninguna de estas preguntas queda resuelta por este RFC.
 
 ---
 
+El estado actual de las cinco Open Questions de Target Generation es:
+
+1. OQ1 — abierta.
+2. OQ2 — abierta.
+3. OQ3 — abierta.
+4. OQ4 — resuelta por `docs/design/target-generation-oq4-association.md`,
+   mediante la identidad `(game_id, team_id)`.
+5. OQ5 — abierta.
+
+Este RFC no resuelve OQ1, OQ2, OQ3 ni OQ5, y no reabre OQ4.
 ## 24. Future Evolution
 
 La responsabilidad de orquestación podrá evolucionar cuando las
@@ -868,6 +939,11 @@ Este RFC será considerado coherente con la arquitectura cuando:
   bankroll;
 - no resuelva decisiones pendientes mediante placeholders o
   comportamiento implícito.
+
+El RFC debe reconocer que OQ4 está resuelta mediante la identidad
+`(game_id, team_id)` y no debe reabrir dicha decisión. Únicamente
+permanecen abiertas las decisiones técnicas de aplicación de esa
+identidad y las demás decisiones explícitamente pendientes.
 
 ---
 
@@ -967,3 +1043,7 @@ Este documento, por tanto, formaliza el detalle pendiente de una
 responsabilidad de orquestación ya perteneciente a Dataset Generation,
 sin introducir un nuevo componente arquitectónico ni resolver
 prematuramente decisiones que todavía requieren diseño.
+
+La identidad de asociación `(game_id, team_id)` ya fue resuelta por
+el ADR OQ4. Este RFC no reabre esa decisión; mantiene abiertas
+únicamente su aplicación técnica y las demás decisiones pendientes.
